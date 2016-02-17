@@ -12,6 +12,7 @@ public class Exercise {
                 Student.getFromNameGpaListOfCourses("Fred", 3.2F, "Math", "Physics", "Art"),
                 Student.getFromNameGpaListOfCourses("Jim", 2.2F, "History", "Biology"),
                 Student.getFromNameGpaListOfCourses("Sheila", 3.8F, "Math", "Astronomy", "Art", "Fencing"),
+                Student.getFromNameGpaListOfCourses("William", 2.78F, "Ceramics"),
                 Student.getFromNameGpaListOfCourses("Jessica", 3.2F, "Math", "Physics", "Art"),
                 Student.getFromNameGpaListOfCourses("Jason", 3.5F, "History", "Biology"),
                 Student.getFromNameGpaListOfCourses("Jerry", 2.9F, "Math", "Astronomy", "Art", "Fencing")
@@ -75,8 +76,17 @@ public class Exercise {
         students.stream()
                 .filter(Student.isSmart(3.0F))
                 .filter(student -> student.getName().startsWith("J"))
-                .sorted()
+                .sorted((s1, s2) -> s1.getName().compareTo(s2.getName()))
                 .forEach(student -> System.out.println(student));
+
+        System.out.println("***************************************");
+        System.out.println("Courses the second half of the alphabet are taking: ");
+        students.stream()
+                .filter(student -> student.getName().charAt(0) > 'M')
+                .flatMap(s -> s.getCourses().stream())
+                .distinct()
+                .sorted()
+                .forEach(c -> System.out.println("> " + c));
 
     }
 
