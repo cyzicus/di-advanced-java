@@ -4,7 +4,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class Consumer implements Runnable{
 
-    private BlockingQueue queue;
+    final private BlockingQueue queue;
 
     public Consumer(BlockingQueue queue) {
         this.queue = queue;
