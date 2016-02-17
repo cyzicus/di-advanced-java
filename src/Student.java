@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
-import static java.util.Arrays.parallelPrefix;
 
 public class Student implements Comparable<Student> {
 
@@ -30,7 +29,7 @@ public class Student implements Comparable<Student> {
 
     }
 
-    public static Student getFromNameGpaListOfCourses(String name, float gpa, String... courses) {
+    public static Student getFromNameGpaListOfCourses(final String name, final float gpa, final String... courses) {
         Student self = new Student();
         self.name = name;
         self.gpa = gpa;
@@ -69,7 +68,7 @@ public class Student implements Comparable<Student> {
     }
 
     @Override
-    public int compareTo(Student o) {
+    public int compareTo(final Student o) {
         return new Float(gpa).compareTo(o.getGpa());
     }
 
@@ -99,7 +98,7 @@ public class Student implements Comparable<Student> {
         return (o1, o2) -> o2.courses.size() - o1.courses.size();
     }
 
-//    public static List<Student> getSubsetOfStudents(List<Student> allStudents) {
+//    public static List<Student> getSubsetOfStudentsByPredicate(List<Student> allStudents) {
 //        List<Student> goodStudents = new ArrayList<>();
 //        allStudents.forEach(student -> {
 //            if (student.getGpa() >= 3.0F) {
@@ -108,13 +107,13 @@ public class Student implements Comparable<Student> {
 //        return Collections.unmodifiableList(goodStudents);
 //    }
 
-    public static List<Student> getBadStudents(List<Student> allStudents) {
+    public static List<Student> getBadStudents(final List<Student> allStudents) {
         return Collections.unmodifiableList(allStudents.stream()
                     .filter(item -> item.getGpa() < 3.0F)
                     .collect(Collectors.toList()));
     }
 
-    public static List<Student> getSubsetOfStudents(List<Student> allStudents, Predicate<Student> criterion) {
+    public static List<Student> getSubsetOfStudentsByPredicate(final List<Student> allStudents, final Predicate<Student> criterion) {
         List<Student> goodStudents = new ArrayList<>();
         allStudents.forEach(student -> {
             if (criterion.test(student)) {
@@ -123,14 +122,70 @@ public class Student implements Comparable<Student> {
         return Collections.unmodifiableList(goodStudents);
     }
 
-
-    public static Predicate<Student> isSmart = new Predicate<Student>() {
-        @Override
-        public boolean test(Student student) {
-            return student.getGpa() >= 3.0F;
+    public static <E> List<E> getSubsetByPredicate(final List<E> inputList, final Predicate<E> criterion) {
+        List<E> returnedList = new ArrayList<>();
+        for (E s : inputList) {
+            if(criterion.test(s)) {
+                returnedList.add(s);
+            }
         }
-    };
+        return Collections.unmodifiableList(returnedList);
+    }
 
-    public static Predicate<Student> isDumb = student -> student.getGpa() < 3.0F;
+    public static List<Student> getSubsetOfStudentsLambda(final List<Student> students, final Predicate<Student> criterion) {
+        return students.stream()
+                .filter(student -> criterion.test(student))
+                .collect(Collectors.toList());
+    }
+
+//    public static Predicate<Student> isSmart(float threshold) = new Predicate<Student>() {
+//        @Override
+//        public boolean test(Student student) {
+//            return student.getGpa() >= 3.0F;
+//        }
+//    }
+
+//    public static Predicate<Student> isSmart(final float threshold) {
+//        return new Predicate<Student>() {
+//            @Override
+//            public boolean test(Student student) {
+//                return student.getGpa() >= threshold;
+//            }
+//        };
+//    }
+
+    public static Predicate<Student> isSmart(final float threshold) {
+        return student -> student.getGpa() >= threshold;
+    }
+
+    public static Predicate<Student> isDumb(float threshold) { // effectively final
+        return student -> student.getGpa() <= threshold;
+    }
+
+//    public static Predicate<Student> isDumb = student -> student.getGpa() < 3.0F;
+
+//    public static Predicate<Student> startsWithFirstHalfOfAlphabet = new Predicate<Student>() {
+//        @Override
+//        public boolean test(Student student) {
+//            return student.name.toUpperCase().charAt(0) <= 'M';
+//        }
+//    };
+
+//    public static Predicate<Student> startsWithFirstPartOfAlphabet(char threshold) {
+//        return new Predicate<Student>() {
+//            @Override
+//            public boolean test(Student student) {
+//                return student.name.toUpperCase().charAt(0) <= threshold;
+//            }
+//        };
+//    }
+
+    public static Predicate<Student> startsWithFirstPartOfAlphabet(char threshold) {
+        return student -> student.name.toUpperCase().charAt(0) <= threshold;
+    }
+
+    public static Predicate<Student> takesCourse(String course) {
+        return student -> student.courses.contains(course);
+    }
 
 }
