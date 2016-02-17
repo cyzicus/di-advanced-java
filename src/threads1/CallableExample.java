@@ -30,6 +30,8 @@ public class CallableExample {
                 .map(callableTask -> executorService.submit(callableTask))
                 .collect(Collectors.toList());
 
+        executorService.shutdown();
+
         futures.forEach(future -> {
             try {
                 System.out.println(">> " + future.get());

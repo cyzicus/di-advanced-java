@@ -1,6 +1,7 @@
 package threads1;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CallableTask implements Callable<String> {
 
@@ -12,8 +13,8 @@ public class CallableTask implements Callable<String> {
 
     @Override
     public String call() throws Exception {
-        System.out.println(name);
-        Thread.sleep(200);
+        System.out.println(name + "...says hello");
+        Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 4000));
         System.out.println(name + "...goodbye");
         return name;
     }
