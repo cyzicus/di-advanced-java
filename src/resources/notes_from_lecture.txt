@@ -1,0 +1,44 @@
+Always put in a toString()...but only used for logging and debugging
+Don't make a public zero argument constructor...ever
+Comparable interface compares something with another thing of the same type
+Comparator 
+
+Lookup TreeSet exercises
+
+Non-Terminal Operations
+
+Map
+1 input -> 1 output
+Input type has NO relationship to output type
+To fulfill behavior it will use a function
+
+FlatMap
+1 input -> n output
+Input type has NO relationship to output type
+Function<streamType, stream<>> 
+Input boundaries ARE LOST
+
+Filter
+1 input -> 0/1 output
+Output type is the same as input type
+
+*******************************
+
+Terminal Operations
+Count
+FindFirst/FindAny
+ForEach
+
+
+*****************************
+Amdahl's Law - no matter how much hardware you throw at a problem you will eventually plateau. 
+
+Producer and Consumer Model of Threading
+Uses BlockingQueue and ArrayBlockingQueue to coordinate threads that are putting (from Producer threads) and taking (from Consumer threads) objects
+
+Never want to create a thread that is polling (asking "are we there yet, are we there yet")
+
+java.util.concurrent.atomic classes are awesome
+Lookup when to use DoubleAccumulator vs. AtomicXxx
+ConcurrentMap is a hashmap that can be used across multiple threads
+
